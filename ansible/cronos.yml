@@ -1,0 +1,60 @@
+# - name: Copy Dockerfile
+- debug: var=work_dir
+
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ cronos_home }}"
+    - "{{ work_dir }}"
+
+- name: create Dockerfile for cronosd
+  template:
+    src: templates/Dockerfile.j2
+    dest: "{{ work_dir }}/Dockerfile"
+
+- name: build cronos docker image
+  community.docker.docker_image: 
+    build:
+      path: "{{ work_dir }}"
+    name: cronos
+    source: build
+    force_source: yes
+
+- name: init cronos
+  shell: >
+    docker run -v {{ cronos_home }}:/root/.cronos
+    cronos:latest
+    cronosd init pegasus-node --chain-id cronosmainnet_25-1
+    >cronos_init 2>&1
+  args:
+    chdir: "{{ work_dir }}"
+    creates: "{{ work_dir }}/cronos_init"
+
+- name: download genesis.json
+  get_url: 
+    url: https://raw.githubusercontent.com/crypto-org-chain/cronos-mainnet/master/cronosmainnet_25-1/genesis.json
+    dest: "{{ cronos_home }}/config/"
+    tmp_dest: "{{ cronos_home }}/config/"
+
+- name: update minimum gas price to avoid transaction spamming
+  lineinfile:
+    path: "{{ cronos_home }}/config/app.toml"
+    regexp: '^(minimum-gas-prices[[:space:]]+=[[:space:]]+).*$'
+    line: '\1"5000000000000basecro"#'
+
+- name: modify the configurations 
+  lineinfile:
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    path: "{{ cronos_home }}/config/config.toml"
+    backrefs: yes
+  loop:
+    - regexp: '^(create_empty_blocks_interval += +).*$'
+      line: '\1"5s"'
+    - regexp: '^(persistent_peers += +).*$'
+      line: '\1"0d5cf1394a1cfde28dc8f023567222abc0f47534@cronos-seed-0.crypto.org:26656,3032073adc06d710dd512240281637c1bd0c8a7b@cronos-seed-1.crypto.org:26656,04f43116b4c6c70054d9c2b7485383df5b1ed1da@cronos-seed-2.crypto.org:26656"'
+    - regexp: '^(timeout_commit += +).*$'
+      line: '\1"5s"'
+

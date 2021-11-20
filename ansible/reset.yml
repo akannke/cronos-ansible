@@ -1,0 +1,10 @@
+---
+- name: delete cronos directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ cronos_home }}"
+    - "{{ work_dir }}"
+
+

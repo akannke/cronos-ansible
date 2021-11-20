@@ -1,0 +1,15 @@
+FROM ubuntu:focal
+
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl 
+
+WORKDIR /root/cronos
+
+RUN curl -LOJ {{ cronos_binary_URL }}
+
+RUN tar -zxvf {{ cronos_binary_URL | basename }}
+
+RUN mv /root/cronos/bin/cronosd /usr/local/bin
+
+WORKDIR /root
+
+CMD ["/usr/local/bin/cronosd", "version"]

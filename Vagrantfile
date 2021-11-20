@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/debian10"
+  config.vm.box = "generic/ubuntu1804"
 
   config.vm.provider "libvirt" do |v|
     v.memory = 8072

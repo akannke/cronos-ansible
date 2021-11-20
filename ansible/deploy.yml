@@ -1,0 +1,16 @@
+---
+- name: Deploy cronos mainnet full node
+  hosts:
+    - matic
+  become: true
+  vars:
+    - cronos_home: "{{ ansible_env.HOME }}/.cronos" 
+    - cronos_binary_URL: https://github.com/crypto-org-chain/cronos/releases/download/v0.6.1/cronos_0.6.1_Linux_x86_64.tar.gz
+    - work_dir: "{{ ansible_env.HOME }}/work/cronos"
+    - reset: false
+  tasks:
+    - include: reset.yml
+      when: reset == true
+    # - include: docker-install.yml
+    - include: cronos.yml
+    - include: user.yml
