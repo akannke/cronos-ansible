@@ -13,4 +13,5 @@
       when: reset == true
     # - include: docker-install.yml
     - include: cronos.yml
+    - include: docker-compose.yml
     - include: user.yml
