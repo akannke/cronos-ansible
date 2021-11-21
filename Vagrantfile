@@ -23,5 +23,6 @@ Vagrant.configure("2") do |config|
     ansible.groups = {
       "matic" => ["cronos_env"],
     }
+    # ansible.tags = "reset"
   end
 end

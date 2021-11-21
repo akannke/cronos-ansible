@@ -6,5 +6,8 @@
   loop:
     - "{{ cronos_home }}"
     - "{{ work_dir }}"
+  tags:
+    - never
+    - reset
 
 
