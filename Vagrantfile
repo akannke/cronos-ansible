@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "cronos_env"
   config.vm.network "forwarded_port", guest: 36657, host: 36657
+  config.vm.network "forwarded_port", guest: 9545, host: 9545
 
   $script = <<-SCRIPT
   echo I am provisioning...

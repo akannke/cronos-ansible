@@ -12,5 +12,5 @@ RUN mv /root/cronos/bin/cronosd /usr/local/bin
 
 WORKDIR /root
 
-EXPOSE 26657
+EXPOSE 26657 8545
 CMD ["/usr/local/bin/cronosd", "version"]

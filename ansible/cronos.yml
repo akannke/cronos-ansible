@@ -78,5 +78,6 @@
     volumes:
       - "{{ cronos_home }}:/root/.cronos"
     ports:
-      - 36657:26657
+      - "{{ tendermint_rpc_port }}:26657"
+      - "{{ eth_rpc_port }}:8545"
 
