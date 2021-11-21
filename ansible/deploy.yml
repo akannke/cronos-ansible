@@ -8,10 +8,14 @@
     - cronos_binary_URL: https://github.com/crypto-org-chain/cronos/releases/download/v0.6.1/cronos_0.6.1_Linux_x86_64.tar.gz
     - work_dir: "{{ ansible_env.HOME }}/work/cronos"
     - reset: false
+    - pip_install_packages:
+      - name: docker
   tasks:
     - include: reset.yml
       when: reset == true
-    # - include: docker-install.yml
     - include: cronos.yml
-    - include: docker-compose.yml
     - include: user.yml
+
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
