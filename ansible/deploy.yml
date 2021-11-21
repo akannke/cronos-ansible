@@ -4,10 +4,10 @@
     - matic
   become: true
   vars:
-    - cronos_home: "{{ ansible_env.HOME }}/.cronos" 
-    - cronos_binary_URL: https://github.com/crypto-org-chain/cronos/releases/download/v0.6.1/cronos_0.6.1_Linux_x86_64.tar.gz
-    - work_dir: "{{ ansible_env.HOME }}/work/cronos"
-    - pip_install_packages:
+    cronos_home: "{{ ansible_env.HOME }}/.cronos"
+    cronos_binary_URL: https://github.com/crypto-org-chain/cronos/releases/download/v0.6.1/cronos_0.6.1_Linux_x86_64.tar.gz
+    work_dir: "{{ ansible_env.HOME }}/work/cronos"
+    pip_install_packages:
       - name: docker
   tasks:
     - include: reset.yml
