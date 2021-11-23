@@ -74,7 +74,6 @@
     image: cronos
     command: cronosd start --rpc.laddr=tcp://0.0.0.0:26657
     state: started
-    recreate: yes
     volumes:
       - "{{ cronos_home }}:/root/.cronos"
     ports:
