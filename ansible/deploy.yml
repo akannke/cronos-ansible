@@ -9,6 +9,7 @@
     work_dir: "{{ ansible_env.HOME }}/work/cronos"
     tendermint_rpc_port: 36657
     eth_rpc_port: 9545
+    prometheus_port: 36660
     pip_install_packages:
       - name: docker
   tasks:
